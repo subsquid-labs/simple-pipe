@@ -1,19 +1,32 @@
+/* simple-pipe - a small demo showcasing the pipes architecture
+ *
+ * Gets the balances of USDT wallets that moved the token
+ * and computes hourly averages. Can be used to track the
+ * relative dominance of large vs small players chainwide.
+ *
+ * This executable only fetches the raw data required.
+ * See src/transfers.sql for definition of the materialized
+ * view that aggregates it into hourly averages.
+ */
+
 import path from 'node:path';
 import { PortalAbstractStream } from './core/portal_abstract_stream';
 import { createClickhouseClient, ensureTables } from './clickhouse';
 import { ClickhouseState } from './core/states/clickhouse_state';
 import { createLogger } from './utils';
 
-export type TransferAmount = {
+export type TransferPreBalance = {
   timestamp: Date;
   pre_balance: bigint;
 };
 
-export class TransferAmountsStream extends PortalAbstractStream<
-  TransferAmount,
+// A stream with just the data we need
+export class TransferPreBalancesStream extends PortalAbstractStream<
+  TransferPreBalance,
   { token: string; }
 > {
-  async stream(): Promise<ReadableStream<TransferAmount[]>> {
+  async stream(): Promise<ReadableStream<TransferPreBalance[]>> {
+    // First, we request a stream of raw data from SQD network
     const source = await this.getStream({
       type: 'solana',
       fields: {
@@ -35,6 +48,9 @@ export class TransferAmountsStream extends PortalAbstractStream<
       ]
     });
 
+    // Transforming the raw data stream into a stream
+    // of convenient TransferPreBalance objects. If we needed
+    // to do any decoding we would do it here
     const stream = source.pipeThrough(
       new TransformStream({
         transform: ({ blocks }, controller) => {
@@ -64,12 +80,12 @@ async function main() {
   const clickhouse = createClickhouseClient();
   const logger = createLogger('transfers');
 
-  const ds = new TransferAmountsStream({
+  const ds = new TransferPreBalancesStream({
     portal: 'https://portal.sqd.dev/datasets/solana-mainnet',
     blockRange: {
-      from: 317617480, // Jan 31, 2025
+      from: 317617480, // Jan 31 2025
       // Check out
-      // curl https://portal.sqd.dev/datasets/solana-mainnet/metadata
+      // $ curl https://portal.sqd.dev/datasets/solana-mainnet/metadata
       // for up-to-date info on the earliest available block
     },
     args: {
@@ -84,7 +100,8 @@ async function main() {
     logger,
   });
 
-  // Ensure tables are created in ClickHouse
+  // Ensure that ClickHouse has the necessary table and
+  // the materialized view
   await ensureTables(clickhouse, path.join(__dirname, 'transfers.sql'));
 
   for await (const transfers of await ds.stream()) {
