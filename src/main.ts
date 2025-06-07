@@ -4,37 +4,33 @@ import { createClickhouseClient, ensureTables } from './clickhouse';
 import { ClickhouseState } from './core/states/clickhouse_state';
 import { createLogger } from './utils';
 
-export type Transfer = {
-  account: string;
-  block_number: bigint;
-  transaction_index: number;
-  amount: bigint;
+export type TransferAmount = {
+  timestamp: Date;
+  pre_balance: bigint;
 };
 
-export class TransfersStream extends PortalAbstractStream<
-  Transfer,
+export class TransferAmountsStream extends PortalAbstractStream<
+  TransferAmount,
   { token: string; }
 > {
-  async stream(): Promise<ReadableStream<Transfer[]>> {
+  async stream(): Promise<ReadableStream<TransferAmount[]>> {
     const source = await this.getStream({
       type: 'solana',
       fields: {
         block: {
+          // Although we're only using timestamp in the final data,
+          // we also need slot number and block hash for progress tracking
           number: true,
-          // Hash and timestamp are not used in the final data,
-          // but are required for progress tracking.o
           hash: true,
           timestamp: true,
         },
         tokenBalance: {
-          transactionIndex: true,
-          account: true,
-          postAmount: true,
+          preAmount: true,
         },
       },
       tokenBalances: [
         {
-          postMint: [ this.options.args.token ]
+          preMint: [ this.options.args.token ]
         }
       ]
     });
@@ -45,18 +41,12 @@ export class TransfersStream extends PortalAbstractStream<
           const res = blocks.flatMap((block: any) => {
             if (!block.tokenBalances) return [];
 
-            const transfers: Transfer[] = [];
+            const blockTimestamp = new Date(block.header.timestamp * 1000);
 
-            for (const tb of block.tokenBalances) {
-              transfers.push({
-                account: tb.account,
-                block_number: block.header.number,
-                transaction_index: tb.transactionIndex,
-                amount: tb.postAmount,
-              });
-            }
-
-            return transfers;
+            return block.tokenBalances.map((tb) => ({
+              timestamp: blockTimestamp,
+              pre_balance: tb.preAmount,
+            }));
           });
 
           controller.enqueue(res);
@@ -74,16 +64,19 @@ async function main() {
   const clickhouse = createClickhouseClient();
   const logger = createLogger('transfers');
 
-  const ds = new TransfersStream({
+  const ds = new TransferAmountsStream({
     portal: 'https://portal.sqd.dev/datasets/solana-mainnet',
     blockRange: {
-      from: 332557468,
+      from: 317617480, // Jan 31, 2025
+      // Check out
+      // curl https://portal.sqd.dev/datasets/solana-mainnet/metadata
+      // for up-to-date info on the earliest available block
     },
     args: {
       token: TRACKED_TOKEN,
     },
-    // We can use the state to track the last block processed
-    // and resume from there.
+    // We use the indexer state to track the last block processed
+    // and resume from there
     state: new ClickhouseState(clickhouse, {
       table: 'solana_sync_status',
       id: 'transfers',
