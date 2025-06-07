@@ -7,42 +7,34 @@ import { createLogger } from './utils';
 export type Transfer = {
   account: string;
   block_number: bigint;
-  block_hash: string;
+  transaction_index: number;
   amount: bigint;
-  token_mint: string;
-  token_decimals: number;
 };
 
 export class TransfersStream extends PortalAbstractStream<
   Transfer,
-  {
-    token: string;
-  }
+  { token: string; }
 > {
   async stream(): Promise<ReadableStream<Transfer[]>> {
-    const { args } = this.options;
-
     const source = await this.getStream({
       type: 'solana',
       fields: {
         block: {
           number: true,
+          // Hash and timestamp are not used in the final data,
+          // but are required for progress tracking.o
           hash: true,
           timestamp: true,
         },
         tokenBalance: {
           transactionIndex: true,
           account: true,
-          preAmount: true,
           postAmount: true,
-          preMint: true,
-          postMint: true,
-          postDecimals: true,
         },
       },
       tokenBalances: [
         {
-          postMint: [ args.token ]
+          postMint: [ this.options.args.token ]
         }
       ]
     });
@@ -59,10 +51,8 @@ export class TransfersStream extends PortalAbstractStream<
               transfers.push({
                 account: tb.account,
                 block_number: block.header.number,
-                block_hash: block.header.hash,
+                transaction_index: tb.transactionIndex,
                 amount: tb.postAmount,
-                token_mint: tb.postMint,
-                token_decimals: tb.postDecimals,
               });
             }
 
@@ -87,16 +77,13 @@ async function main() {
   const ds = new TransfersStream({
     portal: 'https://portal.sqd.dev/datasets/solana-mainnet',
     blockRange: {
-      from: process.env.FROM_BLOCK || 332557468,
-      to: process.env.TO_BLOCK,
+      from: 332557468,
     },
     args: {
       token: TRACKED_TOKEN,
     },
-    /**
-     * We can use the state to track the last block processed
-     * and resume from there.
-     */
+    // We can use the state to track the last block processed
+    // and resume from there.
     state: new ClickhouseState(clickhouse, {
       table: 'solana_sync_status',
       id: 'transfers',
@@ -104,15 +91,13 @@ async function main() {
     logger,
   });
 
-  /**
-   * Ensure tables are created in ClickHouse
-   */
+  // Ensure tables are created in ClickHouse
   await ensureTables(clickhouse, path.join(__dirname, 'transfers.sql'));
 
   for await (const transfers of await ds.stream()) {
     await clickhouse.insert({
       table: 'transfers_raw',
-      values: transfers.map(t => ({ ...t, sign: 1 })),
+      values: transfers,
       format: 'JSONEachRow',
     });
 
