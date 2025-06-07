@@ -15,13 +15,13 @@ import { createClickhouseClient, ensureTables } from './clickhouse';
 import { ClickhouseState } from './core/states/clickhouse_state';
 import { createLogger } from './utils';
 
-export type TransferPreBalance = {
+type TransferPreBalance = {
   timestamp: Date;
   pre_balance: bigint;
 };
 
 // A stream with just the data we need
-export class TransferPreBalancesStream extends PortalAbstractStream<
+class TransferPreBalancesStream extends PortalAbstractStream<
   TransferPreBalance,
   { token: string; }
 > {
