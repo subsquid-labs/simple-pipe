@@ -78,7 +78,6 @@ const TRACKED_TOKEN = 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB'; // USDT
 
 async function main() {
   const clickhouse = createClickhouseClient();
-  const logger = createLogger('transfers');
 
   const ds = new TransferPreBalancesStream({
     portal: 'https://portal.sqd.dev/datasets/solana-mainnet',
@@ -97,7 +96,7 @@ async function main() {
       table: 'solana_sync_status',
       id: 'transfers',
     }),
-    logger,
+    createLogger('transfers'),
   });
 
   // Ensure that ClickHouse has the necessary table and
