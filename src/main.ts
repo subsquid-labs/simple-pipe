@@ -96,7 +96,7 @@ async function main() {
       table: 'solana_sync_status',
       id: 'transfers',
     }),
-    createLogger('transfers'),
+    logger: createLogger('transfers'),
   });
 
   // Ensure that ClickHouse has the necessary table and
