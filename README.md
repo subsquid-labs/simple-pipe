@@ -18,6 +18,13 @@ docker compose up -d
 # Start the swaps indexer
 yarn ts-node src/main.ts
 ```
+You can now visit the local [ClickHouse console](http://localhost:8123/play) and observe the data that the pipe produces:
+```sql
+select * from transfers_raw;
+```
+```sql
+select * from active_balance_stats;
+```
 
 ## Related repositories
 
