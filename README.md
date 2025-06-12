@@ -2,15 +2,15 @@
 
 A small Solana data pipe powered by Soldexer. Gets the balances of USDT wallets that moved the token and computes hourly averages. Can be used to track the relative dominance of large vs small players chainwide.
 
-See `src/main.ts` and `src/transfers.sql` for details.
+See the [Soldexer pipes overview](https://docs.soldexer.dev/pipes/overview) as well as `src/main.ts` and `src/transfers.sql` for details.
 
-This software is in early beta. Interfaces of components involved can change without notice.
+This software is in early beta. Interfaces of the components involved can change without notice.
 
 ## Running the pipe
 
 ```bash
 # Install dependencies
-yarn install
+yarn install --frozen-lockfile
 
 # Start ClickHouse
 docker compose up -d

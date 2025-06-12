@@ -218,6 +218,16 @@
   dependencies:
     "@noble/hashes" "^1.1.5"
 
+"@sqd-pipes/core@0.0.1-alpha.2":
+  version "0.0.1-alpha.2"
+  resolved "https://registry.yarnpkg.com/@sqd-pipes/core/-/core-0.0.1-alpha.2.tgz#4fc459136a681385b8868f879e6d937d46cf594c"
+  integrity sha512-mxMQRXkFxd6iu341bfPwZX4ivIufTLI5t/aWqDuXuZh510s6dB5dsEiD/5qz83IWdb0npwO074kVRRdzhO6w2A==
+  dependencies:
+    "@subsquid/http-client" "^1.6.0"
+    "@subsquid/util-internal" "^3.2.0"
+    lodash "^4.17.21"
+    pino "^9.7.0"
+
 "@subsquid/borsh@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@subsquid/borsh/-/borsh-0.2.0.tgz#125367aeaa8e86a9e4cee5c0fd26f54b591ca089"
@@ -234,7 +244,7 @@
     "@subsquid/util-internal" "3.3.0-portal-api.da1f68"
     node-fetch "^3.3.2"
 
-"@subsquid/http-client@^1.5.0", "@subsquid/http-client@^1.6.0":
+"@subsquid/http-client@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@subsquid/http-client/-/http-client-1.6.0.tgz#e9e90b1401460f9b28368361d273a3c8f071feb4"
   integrity sha512-0QnOiMLTjR7j5RA33qJpAEOj2Eu9SIEqOp773ItbMObdAhWVNXL54Tu0a/p2Gk3Rq5+lYa4oFEpeFGbEdjtajg==
@@ -252,7 +262,7 @@
     "@subsquid/util-internal-json" "^1.2.3"
     supports-color "^8.1.1"
 
-"@subsquid/logger@^1.3.3":
+"@subsquid/logger@^1.3.3", "@subsquid/logger@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@subsquid/logger/-/logger-1.4.0.tgz#468c9055213608fac7eb9ef5849d2367cb85f5ed"
   integrity sha512-Yep4hzpLfmm4pJMXuTnd3n7Hlo18Dce8vwKZduGE9n/p56cHq4BTbAuaXLK50vYKWx7Lyt2obVbJ4otVMWkyYg==
@@ -272,12 +282,12 @@
     "@subsquid/util-timeout" "^2.3.2"
 
 "@subsquid/rpc-client@^4.11.0":
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/@subsquid/rpc-client/-/rpc-client-4.11.0.tgz#1183a9c6f65c7ffcb862af57992d28bd69b7730e"
-  integrity sha512-0vVCqNEsi7OW/9sAEAQL6ljxQ2qmowtfMBVOBefw/l4AAib9e/PR1aS7EuBaiKq56e/iKzMOJigqvnEiS3EwFQ==
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/@subsquid/rpc-client/-/rpc-client-4.12.0.tgz#27205d5e5214c6f8f603e08d746bf81c78f77c90"
+  integrity sha512-on6vGlEA57sKbZNI5mn9P1qYT7KKqMMum0XU2U0v+EB4rN6N+IhKQWYBlNBjIRoO7Gd+HyksZRniysApZwJ5VQ==
   dependencies:
-    "@subsquid/http-client" "^1.5.0"
-    "@subsquid/logger" "^1.3.3"
+    "@subsquid/http-client" "^1.6.0"
+    "@subsquid/logger" "^1.4.0"
     "@subsquid/util-internal" "^3.2.0"
     "@subsquid/util-internal-binary-heap" "^1.0.0"
     "@subsquid/util-internal-counters" "^1.3.2"
@@ -500,17 +510,24 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^22.13.1":
-  version "22.15.30"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.30.tgz#3a20431783e28dd0b0326f84ab386a2ec81d921d"
-  integrity sha512-6Q7lr06bEHdlfplU6YRbgG1SFBdlsfNC4/lX+SkhiTs0cpJkOElmWls8PxDFv4yY/xKb8Y6SO0OmSX4wgqTZbA==
+"@types/node@*":
+  version "24.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.0.1.tgz#e9bfcb1c35547437c294403b7bec497772a88b0a"
+  integrity sha512-MX4Zioh39chHlDJbKmEgydJDS3tspMP/lnQC67G3SWsTnb9NeYVWOjkxpOSy4oMfPs4StcWHwBrvUb4ybfnuaw==
   dependencies:
-    undici-types "~6.21.0"
+    undici-types "~7.8.0"
 
 "@types/node@^12.12.54":
   version "12.20.55"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.55.tgz#c329cbd434c42164f846b909bd6f85b5537f6240"
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
+
+"@types/node@^22.13.1":
+  version "22.15.31"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.31.tgz#454f11e2061150135c8353d7f3b3b1823fca9f3f"
+  integrity sha512-jnVe5ULKl6tijxUhvQeNbQG/84fHfg+yMak02cT8QVhBx/F05rAVxCGBYYTh2EKz22D6JF5ktXuNwdx7b9iEGw==
+  dependencies:
+    undici-types "~6.21.0"
 
 "@types/uuid@^8.3.4":
   version "8.3.4"
@@ -539,9 +556,9 @@ acorn-walk@^8.1.1:
     acorn "^8.11.0"
 
 acorn@^8.11.0, acorn@^8.4.1:
-  version "8.14.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.1.tgz#721d5dc10f7d5b5609a891773d47731796935dfb"
-  integrity sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==
+  version "8.15.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.15.0.tgz#a360898bc415edaac46c8241f6383975b930b816"
+  integrity sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==
 
 agentkeepalive@^4.5.0:
   version "4.6.0"
@@ -1045,6 +1062,11 @@ json-stringify-safe@^5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 lower-case@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-2.0.2.tgz#6fa237c63dbdc4a82ca0fd882e4722dc5e634e28"
@@ -1176,7 +1198,7 @@ pino-std-serializers@^7.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-7.0.0.tgz#7c625038b13718dbbd84ab446bd673dc52259e3b"
   integrity sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA==
 
-pino@^9.6.0:
+pino@^9.6.0, pino@^9.7.0:
   version "9.7.0"
   resolved "https://registry.yarnpkg.com/pino/-/pino-9.7.0.tgz#ff7cd86eb3103ee620204dbd5ca6ffda8b53f645"
   integrity sha512-vnMCM6xZTb1WDmLvtG2lE/2p+t9hDEIvTWJsu6FejkE62vB7gDhvzrpFR4Cw2to+9JNQxVnkAKVPA1KPB98vWg==
@@ -1392,6 +1414,11 @@ undici-types@~6.21.0:
   version "6.21.0"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.21.0.tgz#691d00af3909be93a7faa13be61b3a5b50ef12cb"
   integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
+
+undici-types@~7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-7.8.0.tgz#de00b85b710c54122e44fbfd911f8d70174cd294"
+  integrity sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==
 
 utf-8-validate@^5.0.2:
   version "5.0.10"

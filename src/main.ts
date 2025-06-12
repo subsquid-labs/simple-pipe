@@ -10,10 +10,10 @@
  */
 
 import path from 'node:path';
-import { PortalAbstractStream } from './core/portal_abstract_stream';
+import { PortalAbstractStream } from '@sqd-pipes/core';
 import { createClickhouseClient, ensureTables } from './clickhouse';
-import { ClickhouseState } from './core/states/clickhouse_state';
-import { createLogger } from './utils';
+import { ClickhouseState } from '@sqd-pipes/core';
+import { createLogger } from './logger';
 
 type TransferPreBalance = {
   timestamp: Date;
