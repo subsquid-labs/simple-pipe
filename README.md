@@ -30,7 +30,7 @@ select * from active_balance_stats;
 
 | Name | Description |
 |------|-------------|
-| [soldexer](https://github.com/subsquid-labs/soldexer) | The original Soldexer repo. Includes a pipe that grabs swaps from Solana's most popular DEx'es. |
+| [soldexer](https://github.com/subsquid-labs/soldexer) | The original Soldexer repo. Includes three pipes with some real-world utility. |
 | [solana-ingest](https://github.com/subsquid/squid-sdk/tree/master/solana/solana-ingest) | Extracts Solana data and uploads compressed chunks to S3. |
 | [solana-data-service](https://github.com/subsquid/squid-sdk/tree/solana-data-service/solana/solana-data-service) | Streams live Solana blocks to Portals via RPC. |
 | [sqd-portal](https://github.com/subsquid/sqd-portal) | Handles incoming queries and routes to workers or hotblocks. |
