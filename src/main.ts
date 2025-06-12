@@ -87,7 +87,7 @@ async function main() {
     blockRange: {
       from: 317617480, // Jan 31 2025
       // Check out
-      // $ curl https://portal.sqd.dev/datasets/solana-mainnet/metadata
+      // https://portal.sqd.dev/datasets/solana-mainnet/metadata
       // for up-to-date info on the earliest available block
     },
     args: {
