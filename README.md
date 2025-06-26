@@ -23,7 +23,8 @@ You can now visit the local [ClickHouse console](http://localhost:8123/play) and
 select * from transfers_raw;
 ```
 ```sql
-select * from active_balance_stats;
+-- see https://clickhouse.com/docs/materialized-view/incremental-materialized-view
+select timestamp, avgMerge(avg_active_wallet_balance) from active_balance_stats group by timestamp;
 ```
 
 ## Related repositories

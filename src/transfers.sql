@@ -11,7 +11,7 @@ ORDER BY (timestamp)
 AS
 SELECT
   toStartOfHour(timestamp) as timestamp,
-  avg(toFloat64(pre_balance) / 1e6) AS avg_active_wallet_balance
+  avgState(toFloat64(pre_balance) / 1e6) AS avg_active_wallet_balance
 FROM transfers_raw
 GROUP BY timestamp;
 
